@@ -28,8 +28,8 @@ jobs:
       run: |
         jq '.containerDefinitions[0].image = "600627364901.dkr.ecr.us-east-1.amazonaws.com/pal-final-test:latest"' task-definition.json > updated-task-definition.json
     - name: Deploy to ECS
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.11
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
-        task-definition: updated-task-definition.json
+        task-definition: arn:aws:ecs:us-east-1:600627364901:task-definition/pal-task
         service: pal-service
         cluster: pal-cluster
