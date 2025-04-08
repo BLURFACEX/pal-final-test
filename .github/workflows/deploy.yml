@@ -24,9 +24,12 @@ jobs:
       run: |
         docker build -t 600627364901.dkr.ecr.us-east-1.amazonaws.com/pal-final-test:latest .
         docker push 600627364901.dkr.ecr.us-east-1.amazonaws.com/pal-final-test:latest
+    - name: Update task definition with new image
+      run: |
+        jq '.containerDefinitions[0].image = "600627364901.dkr.ecr.us-east-1.amazonaws.com/pal-final-test:latest"' task-definition.json > updated-task-definition.json
     - name: Deploy to ECS
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.11  # Use a specific version to avoid potential bugs
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.11
       with:
-        task-definition: arn:aws:ecs:us-east-1:600627364901:task-definition/pal-task  # Add :revision if needed (e.g., :1)
+        task-definition: updated-task-definition.json
         service: pal-service
         cluster: pal-cluster
