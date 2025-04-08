@@ -6,6 +6,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:  # Set environment variables at the job level
+      AWS_REGION: us-east-1
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -17,7 +19,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: us-east-1
+        AWS_REGION: us-east-1  # Still needed for this step to ensure compatibility
     - name: Mask Docker password
       run: echo "::add-mask::${{ steps.login-ecr.outputs.docker_password }}"
     - name: Build, tag, and push image to ECR
