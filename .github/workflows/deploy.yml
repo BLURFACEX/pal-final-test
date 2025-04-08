@@ -25,8 +25,8 @@ jobs:
         docker build -t 600627364901.dkr.ecr.us-east-1.amazonaws.com/pal-final-test:latest .
         docker push 600627364901.dkr.ecr.us-east-1.amazonaws.com/pal-final-test:latest
     - name: Deploy to ECS
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1.4.11  # Use a specific version to avoid potential bugs
       with:
-        task-definition: arn:aws:ecs:us-east-1:600627364901:task-definition/pal-task
+        task-definition: arn:aws:ecs:us-east-1:600627364901:task-definition/pal-task  # Add :revision if needed (e.g., :1)
         service: pal-service
         cluster: pal-cluster
